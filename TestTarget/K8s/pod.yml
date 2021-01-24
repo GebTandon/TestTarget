@@ -1,0 +1,36 @@
+﻿apiVersion: v1
+kind: Pod
+metadata: 
+  name: testtarget
+spec:
+  containers:
+    - name: testtarget
+      image: testtarget.local:1     #should be full image name with tag.
+      # command writes to the volume mountes just to show how volume mounts and who command can be redirected.
+      command: ["/bin/bash","-c", "dotnet TestTarget.dll"]
+      volumeMounts:
+      - name: testtarget-pv-storage
+        mountPath: /var/temp
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
+      readinessProbe:
+        tcpSocket:
+          port: 5000
+        initialDelaySeconds: 5
+        periodSeconds: 10
+      livenessProbe:
+        tcpSocket:
+          port: 5000
+        initialDelaySeconds: 15
+        periodSeconds: 20
+  restartPolicy: Never  #do not restart on failure/ completions. other values Always or OnFailure
+  volumes:
+   - name: testtarget-pv-storage
+     persistentVolumeClaim:
+       claimName: testtarget-pv-claim
+#pod template ends here..

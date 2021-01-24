@@ -25,12 +25,13 @@ namespace Tester
             var cancellationSource = new CancellationTokenSource();
             var consoleSrv = services.GetRequiredService<IConsoleWrapper>();
             var loaderSrv = services.GetRequiredService<ILoadServer>();
-            _ = PromptUser(consoleSrv, loaderSrv, cancellationSource);//do not await on this task !!
-            await host.RunAsync(cancellationSource.Token);
+            var foreGround = PromptUser(consoleSrv, loaderSrv, cancellationSource);//do not await on this task !!
+            var backGround = host.RunAsync(cancellationSource.Token);
+            Task.WaitAll(new[] { foreGround, backGround });
             cancellationSource.Dispose();
         }
 
-        private static Task PromptUser(IConsoleWrapper consoleSrv, ILoadServer loaderSrv, System.Threading.CancellationTokenSource cancellationSource)
+        private static Task PromptUser(IConsoleWrapper consoleSrv, ILoadServer loaderSrv, CancellationTokenSource cancellationSource)
         {
             return Task.Run(() =>
             {

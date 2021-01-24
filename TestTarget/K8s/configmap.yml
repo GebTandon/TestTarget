@@ -1,0 +1,14 @@
+﻿#https://medium.com/@fbeltrao/automatically-reload-configuration-changes-based-on-kubernetes-config-maps-in-a-net-d956f8c8399a
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: testtarget-config
+data:
+# loads only partial data from config file.. see the Startup on how this config is loaded.
+  appSettings.json: |-
+    {
+      "AppSettings": {
+          "Author": "Yatin Shah CnfgMap",
+          "PublishedOn": "12/28/2019"
+      },
+    }
