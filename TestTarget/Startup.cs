@@ -12,6 +12,7 @@ namespace TestTarget
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -22,6 +23,18 @@ namespace TestTarget
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.AllowAnyOrigin();
+                                      builder.AllowAnyHeader();
+                                      builder.AllowAnyMethod();
+                                      builder.AllowCredentials();
+                                      //builder.WithOrigins("http://example.com","http://www.contoso.com");
+                                  });
+            });
             services.AddControllers();
             services.AddHealthChecks()
                 .AddCheck<TestHealthCheck>("app is ready", failureStatus: HealthStatus.Degraded, new[] { "appReady" })
@@ -41,7 +54,7 @@ namespace TestTarget
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

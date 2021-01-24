@@ -1,10 +1,10 @@
 ﻿#! /bin/bash
 # build docker image
-#$> docker build -f Dockerfile.Remote -t simplejob.local:1 .
+#$> docker build -f Dockerfile.Remote -t testtarget.local:1 .
 # run kind and create a cluster
 #$> kind create cluster --name ykind
 # run kind to pre-load the container image so we can create pods through kubectl.
-#$> kind load docker-image simplejob.local:1
+#$> kind load docker-image testtarget.local:1
 # create K8s resources from this folder.
 kubectl apply -f ./
 kubectl get pv

@@ -1,15 +1,25 @@
 ﻿version: "3.7"
 
 services:
-  simplejobapp:
+  testtargetweb:
     container_name: testtarget
     image: testtarget.local:1
     build:
       context: .
       dockerfile: Dockerfile.Remote
     env_file: [./env.var]
+    ports: 
+     - "3500:5000"
+     - "3501:5001"
 #    scale: 2 #cannot use scale with container_name, since it cannot create multple containers with same name.
     volumes:
       - "/c/temp/run:/var/run"
+      - "/e/Yatin/PublishedApps/Docker/LoadTest/TestTarget:/https/"
+    networks: [testtarget]
+
     # Run command with shell command and we can capture the output and redirect it as well if needed.
     command: ["/bin/bash","-c", "dotnet TestTarget.dll"]
+
+networks: 
+  testtarget:
+    driver: bridge

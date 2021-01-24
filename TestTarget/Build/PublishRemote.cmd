@@ -5,7 +5,7 @@ REM ------------------------------------
 
 SET MSBUILD="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe"
 SET DOTNET="C:\Program Files\dotnet\dotnet.exe"
-SET REMOTEOUTDIR=Z:\Docker\LoadTest\TestTarget
+SET REMOTEOUTDIR=Z:\Docker\LoadTest\TestTarget\
 
 mkdir "%REMOTEOUTDIR%"
 
