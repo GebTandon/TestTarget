@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace TestTarget.Controllers
 {
@@ -9,13 +10,15 @@ namespace TestTarget.Controllers
     [Route("[controller]")]
     public class ResourceController : ControllerBase
     {
+        public static int reqstCounter = 0;
         [HttpGet]
         [Route("ShortMem")]
         //e.g. https://localhost:<port>/resource/ShortMem/?count=200
         public List<Employee> ShortMem(int count = 100)
         {
-
-            var ret = new List<Employee>(count);
+            reqstCounter += 1;
+               DoRandomStuff(reqstCounter);
+         var ret = new List<Employee>(count);
             while (count-- >= 0)
             {
                 ret.Add(new Employee());
@@ -27,7 +30,8 @@ namespace TestTarget.Controllers
         [Route("LargeMem")]
         public StringObj LargeMem(int count = 100)
         {
-
+            reqstCounter += 1;
+            DoRandomStuff(reqstCounter);
             var ret = new StringObj { Value = string.Join(' ', LoremNET.Lorem.Paragraphs(300, 20, 30)) };
             return ret;
         }
@@ -35,11 +39,20 @@ namespace TestTarget.Controllers
         [Route("LargeCpu")]
         public StringObj LargeCpu(int count = 100)
         {
+            reqstCounter += 1;
+            DoRandomStuff(reqstCounter);
             var ret = new StringObj { Value = new PrimeCalculator().FindPrimeNumber(count).ToString() };
             return ret;
         }
 
-
+        private void DoRandomStuff(int number)
+        {
+            switch (number/(new Random().Next(11,37)))
+            {
+                case 3: Thread.Sleep(40); break;
+                case 7: throw new Exception($"Exception when request counter = {reqstCounter}");
+            }
+        }
     }
 
     public class PrimeCalculator
@@ -89,4 +102,6 @@ namespace TestTarget.Controllers
     {
         public string Value { get; set; }
     }
+
+
 }

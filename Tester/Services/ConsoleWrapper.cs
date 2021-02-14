@@ -32,7 +32,7 @@ namespace Tester.Services
         public string PromptAndRead(string prompt, ConsoleColor color = ConsoleColor.Yellow)
         {
             Console.Clear();
-            Console.SetCursorPosition(1, 1);
+            Console.SetCursorPosition(1, 0);
             Console.Write(prompt);
             lock (ForLocking)
             {

@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using System;
+using Polly;
+using Flurl.Http;
 
 namespace Tester.Services
 {
