@@ -1,0 +1,14 @@
+﻿apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: testtarget-cert-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/e/Yatin/PublishedApps/Docker/LoadTest/TestTarget"

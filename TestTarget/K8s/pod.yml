@@ -11,6 +11,8 @@ spec:
       volumeMounts:
       - name: testtarget-pv-storage
         mountPath: /var/temp
+      - name: testtarget-cert-pv
+        mountPath: /https
       resources:
         requests:
           memory: "64Mi"
@@ -28,9 +30,19 @@ spec:
           port: 5000
         initialDelaySeconds: 15
         periodSeconds: 20
+      env:
+       - name: ASPNETCORE_URLS
+         value: "http://*:5000/"
+#       - name: ASPNETCORE_Kestrel__Certificates__Default__Password
+#         value: "netcorecert"
+#       - name: ASPNETCORE_Kestrel__Certificates__Default__Path
+#         value: "/https/aspnetapp.pfx"
   restartPolicy: Never  #do not restart on failure/ completions. other values Always or OnFailure
   volumes:
    - name: testtarget-pv-storage
      persistentVolumeClaim:
        claimName: testtarget-pv-claim
+   - name: testtarget-cert-pv
+     persistentVolumeClaim:
+       claimName: testtarget-cert-pv-claim
 #pod template ends here..

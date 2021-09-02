@@ -2,8 +2,8 @@
 kind: Ingress
 metadata:
   name: testtarget-ingress
-  annotations:
-    ingress.kubernetes.io/rewrite-target: /
+#  annotations:
+#    ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - http:
@@ -12,9 +12,9 @@ spec:
           backend:
             serviceName: testtarget-service
             servicePort: 7000
-  - https:
-      paths:
-        - path: /
-          backend:
-            serviceName: testtarget-service
-            servicePort: 7001
+#  - https:
+#      paths:
+#        - path: /
+#          backend:
+#            serviceName: testtarget-service
+#            servicePort: 7001

@@ -8,12 +8,14 @@ spec:
   type: NodePort
   ports:
   - port: 7000          #cluster internal port
+    name: nonsecure
     protocol: TCP
-    nodePort: 30163     #node external port
+    nodePort: 30163     #node external port (does not work??)
     targetPort: 5000    #container port
   - port: 7001          #cluster internal port
+    name: secured
     protocol: TCP
-    nodePort: 30164     #node external port
+    nodePort: 30164     #node external port (does not work??)
     targetPort: 5001    #container port
   selector:
-    run: testtarget
+    type: webapi
